@@ -1,0 +1,119 @@
+#include<iostream>
+#include<stdio.h>
+#include<math.h>
+using namespace std;
+#define EQN_EPS 1e-9
+
+static int isZero(long double x)
+{
+return x > -EQN_EPS && x < EQN_EPS;
+}
+
+
+int solveLinear(long double c[2], long double s[1])
+{
+if (isZero(c[1]))
+    return 0;
+s[0] = - c[0] / c[1];
+return 1;
+}
+
+
+int solveCubic(long double c[4], long double s[3])
+{
+int	i, num;
+long double	sub,
+	A, B, C,
+	sq_A, p, q,
+	cb_p, D;
+
+// normalize the equation:x ^ 3 + Ax ^ 2 + Bx  + C = 0
+A = c[2] / c[3];
+B = c[1] / c[3];
+C = c[0] / c[3];
+
+// substitute x = y - A / 3 to eliminate the quadric term: x^3 + px + q = 0
+
+sq_A = A * A;
+p = 1.0/3.0 * (-1.0/3.0 * sq_A + B);
+q = 1.0/2.0 * (2.0/27.0 * A *sq_A - 1.0/3.0 * A * B + C);
+
+// use Cardano's formula
+
+cb_p = p * p * p;
+D = q * q + cb_p;
+
+if (isZero(D))
+    {
+    if (isZero(q))
+	{
+	// one triple solution
+	s[0] = 0.0;
+	num = 1;
+	}
+    else
+	{
+	// one single and one long double solution
+	long double u = cbrt(-q);
+	s[0] = 2.0 * u;
+	s[1] = - u;
+	num = 2;
+	}
+    }
+else
+    if (D < 0.0)
+	{
+	// casus irreductibilis: three real solutions
+	long double phi = 1.0/3.0 * acos(-q / sqrt(-cb_p));
+	long double t = 2.0 * sqrt(-p);
+	s[0] = t * cos(phi);
+	s[1] = -t * cos(phi + M_PI / 3.0);
+	s[2] = -t * cos(phi - M_PI / 3.0);
+	num = 3;
+	}
+    else
+	{
+	// one real solution
+	long double sqrt_D = sqrt(D);
+	long double u = cbrt(sqrt_D + fabs(q));
+	if (q > 0.0)
+	    s[0] = - u + p / u ;
+	else
+	    s[0] = u - p / u;
+	num = 1;
+	}
+
+// resubstitute
+sub = 1.0 / 3.0 * A;
+for (i = 0; i < num; i++)
+    s[i] -= sub;
+return num;
+}
+
+
+int main()
+{
+	int test;
+	scanf("%d",&test);
+	while(test--)
+	{
+	long double a,b,co;
+	scanf("%Lf %Lf %Lf",&a,&b,&co);
+	long double c[4];
+	c[0]=co;
+	c[1]=b;
+	c[2]=a;
+	c[3]=1;
+	long double s[3];
+	solveCubic(c,s);
+
+	long double h1,h2,h3;
+	h1=s[0]*s[0];
+	h2=s[1]*s[1];
+	h3=s[2]*s[2];
+	//cout<<h1<<" "<<h2<<" "<<h3<<endl;
+	long double ans=h1+h2+h3;
+	printf("%Lf\n",ans);
+	}
+	return 0;
+}

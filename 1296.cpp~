@@ -1,43 +1,57 @@
 #include<iostream>
 #include<set>
 #include<vector>
+#include<algorithm>
+#include<stdio.h>
 using namespace std;
 int main()
 {
-	long long n;	
-	cin>>n;
-	vector<long long> a,b,c,d;
-	for(long long i=0;i<n;i++)
+	int n;
+	//cin>>n;
+	scanf("%d",&n);
+	vector<long> a,b,c,d;
+	vector<long> contains;
+	for(int i=0;i<n;i++)
 	{
-		long long x1,x2,x3,x4;
-		cin>>x1>>x2>>x3>>x4;
+		long x1,x2,x3,x4;
+		//cin>>x1>>x2>>x3>>x4;
+		scanf("%ld %ld %ld %ld",&x1,&x2,&x3,&x4);
 		a.push_back(x1);
 		b.push_back(x2);
 		c.push_back(x3);
 		d.push_back(x4);
 	}
-	multiset<long long> poker;
-	for(long long i=0;i<n;i++)
+
+	//multiset<long long> present;
+	
+				
+	for(int i=0;i<n;i++)
 	{
-		for(long long j=0;j<n;j++)
-		{
-			long long sum=c[i]+d[j];
-			poker.insert(sum);
+		for(int j=0;j<n;j++)
+		{	
+			contains.push_back(c[i]+d[j]);	
 		}
 	}
 
-	long long count=0;
-	for(long long i=0;i<n;i++)
+	sort(contains.begin(),contains.end());
+	long ct=0;
+vector<long>::iterator s1,s2;
+	for(int i=0;i<n;i++)
 	{
-		for(long long j=0;j<n;j++)
+		for(int j=0;j<n;j++)
 		{
-			long long sum=a[i]+b[j];
-			long long d=poker.count(-sum);
-			count+=d;
-		}	
+			long h=a[i]+b[j];
+			 = lower_bound(contains.begin(),contains.end(),-h);
+			vector<long>::iterator s2 =upper_bound(contains.begin(),contains.end(),-h);
+			if(s1==contains.end() || *s1!=-h)
+				continue;
+			long long koli=s2-s1;
+			ct+=koli;
+				
+			
+		}
 	}
-
-	cout<<count<<endl;
-
+	//cout<<ct<<endl;
+	printf("%lld\n",ct);
 	return 0;
 }
