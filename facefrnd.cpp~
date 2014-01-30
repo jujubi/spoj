@@ -1,0 +1,35 @@
+#include<iostream>
+#include<vector>
+#include<set>
+using namespace std;
+int main()
+{
+
+set<int> lol;
+vector<int> ids;
+int n;
+cin>>n;
+
+	for(int i=1;i<=n;i++)
+	{
+		int id;
+		cin>>id;
+		ids.push_back(id);
+		int m;
+		cin>>m;		
+		for(int i=1;i<=m;i++)	
+		{
+			int po;
+			cin>>po;
+			lol.insert(po);
+		}
+	}
+
+	for(int i=0;i<ids.size();i++)
+	{
+		if(lol.count(ids[i])>0)
+			lol.erase(ids[i]);
+	}
+
+return 0;
+}

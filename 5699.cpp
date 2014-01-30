@@ -1,0 +1,38 @@
+#include<iostream>
+#include<string>
+using namespace std;
+
+int main()
+{
+	unsigned long long test;
+	cin>>test;
+	int arr[][4]={{2,4,6,8},{3,9,7,1},{4,6,4,6},{7,9,3,1},{8,4,2,6},{9,1,9,1}};
+	while(test--)
+	{
+		string x1,y1;
+		cin>>x1>>y1;
+		int x=(x1[x1.size()-1]-48)%10;
+		if(x==0)
+			{cout<<0<<endl;continue;}
+		if(y1=="0" && y1.size()==1)
+		{
+			cout<<1<<endl;continue;}
+		if(x%10==0 || x%10==1 || x%10==5 ||x%10==6)
+		{
+			cout<<x%10<<endl;continue;
+		}
+		int go;
+		if(y1.size()==1)
+			go=y1[0]-48;
+		else
+			 go=(y1[y1.size()-2]-48)*10+(y1[y1.size()-1]*10-48);
+		if(go%4==0)
+			go=4;
+		else
+			go=go%4;
+		if(x<=4)
+			x=x-2;
+		else if(x<=9)
+			x=x-7+3;
+		cout<<arr[x][go-1]<<endl;}
+	return 0;}

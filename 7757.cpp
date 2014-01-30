@@ -1,0 +1,52 @@
+#include<iostream>
+#include<string>
+#include<algorithm>
+using namespace std;
+// trim from start
+static inline std::string &ltrim(std::string &s) {
+        s.erase(s.begin(), std::find_if(s.begin(), s.end(), std::not1(std::ptr_fun<int, int>(std::isspace))));
+        return s;
+}
+
+// trim from end
+static inline std::string &rtrim(std::string &s) {
+        s.erase(std::find_if(s.rbegin(), s.rend(), std::not1(std::ptr_fun<int, int>(std::isspace))).base(), s.end());
+        return s;
+}
+
+// trim from both ends
+static inline std::string &trim(std::string &s) {
+        return ltrim(rtrim(s));
+}
+
+int main()
+{
+	string str;
+	while(1>0)
+	{
+		getline(cin,str);
+		//getline(cin,str);
+		if(str=="*")
+			break;
+		if(str=="")
+			continue;
+		trim(str);
+		transform(str.begin(), str.end(), str.begin(), ::tolower);	
+		char c=str[0];
+		int flag=0;
+		for(int i=1;i<str.size();i++)
+		{
+			if(str[i]==' ' && str[i+1]!=c)
+				{
+				if(str[i+1]!=' ')
+					{flag=1;break;}
+				}
+		}
+		if(flag==0)
+			cout<<"Y"<<endl;
+		else
+			cout<<"N"<<endl;
+
+	}
+	return 0;
+}

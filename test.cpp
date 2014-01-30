@@ -1,100 +1,41 @@
-#include <iostream>
-#include <stdio.h>
-#include <stdlib.h>
-#include <vector>
-#include <queue>
- 
+#include<iostream>
+#include<string.h>
 using namespace std;
+char str1[2001];
+char str2[2001];
+int dp[2001][2001];
  
-vector<string> grid;
+int main(){
  
-bool visited[183][183];
- 
-int distances[183][183];
- 
-int n, m;
- 
-int xD[4] = {1, -1, 0 ,0};
-int yD[4] = {0, 0, 1, -1};
- 
-void clear_visited();
-int calculate(int x, int y);
- 
-int main()
-{
-    int test_cases;
-    cin >> test_cases;
-    while(test_cases--)
-    {
-        // Getting the input
-        cin >> n >> m;
-        for(int i=0; i<n; i++)
-        {
-            string s;
-            cin >> s;
-            grid.push_back(s);
-        }
- 
-        // Calculating the minimum distances
-        for(int i=0; i<n; i++)
-        {
-            for(int j=0; j<m; j++)
-            {
-                distances[i][j] = calculate(i,j);
-                clear_visited();
-            }
-        }
- 
- 
-        // Printing out the output
-        for(int i=0; i<n; i++)
-        {
-            for(int j=0; j<m; j++)
-            {
-                if (j== m-1)
-                    cout << distances[i][j] << endl;
-                else
-                    cout << distances[i][j] << ' ';
-            }
-        }
-    }
- 
- 
-    return 0;
+int t;
+cin>>t;
+while(t--){
+cin>>str1>>str2;
+int d1,d2,d3,i,j,len1,len2;
+len1=strlen(str1);
+len2=strlen(str2);
+for( i=0;i<=len1;i++)
+dp[i][0]=i;
+for( j=1;j<=len2;j++)
+dp[0][j]=j;
+for( i=1;i<=len1;i++){
+for( j=1;j<=len2;j++){
+d1=((str1[i-1]==str2[j-1])?0:1)+dp[i-1][j-1];//substitution-->if last character same dont do anything(0) else replace last char(1
+d2=dp[i][j-1]+1; // convert (s+ch1) to (t+ch2) by inserting in ch2. so dp (s+ch1,t)+1 +1 for ch2 insertion
+//insertion-->str2 of j-1 length is converted to
+d3=dp[i-1][j]+1;//deletion -->convert (s+ch1) to (t+ch2) by deleting ch1 from s.so dp[s,t+ch2]+1 +1 for ch1 deletion
+//finding minimum of 3
+if(d1<d2&&d1<d3)
+dp[i][j]=d1;
+else{
+if(d2<d3)
+dp[i][j]=d2;
+else
+dp[i][j]=d3;
 }
- 
- 
-int calculate(int x, int y)
-{
-    int originalX = x;
-    int originalY = y;
-    queue<pair<int, int> > q;
-    q.push(make_pair(x, y));
-    visited[x][y] = true;
- 
-    while(!q.empty())
-    {
-        x = q.front().first; y = q.front().second;
-        if(grid[x][y] == '1')
-        {
-            return abs(originalX - x) + abs(originalY - y);
-        }
-        q.pop();
-        for(int i=0; i<4;i++)
-        {
-            if(x+xD[i] >= 0 && x+xD[i] < n && y+yD[i] >= 0 && y+yD[i] < m && !visited[x+xD[i]][y+yD[i]])
-            {
-                q.push(make_pair(x+xD[i], y+yD[i]));
-                visited[x+xD[i]][y+yD[i]] = true;
-            }
-        }
-    }
 }
- 
-void clear_visited()
-{
-    for(int i=0; i<183; i++)
-        for(int j=0; j<183; j++)
-            visited[i][j] = false;
 }
- 
+cout<< dp[len1][len2];
+cout<<endl;
+}
+}

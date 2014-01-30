@@ -1,0 +1,86 @@
+/*
+Suffix array O(n lg^2 n)
+LCP table O(n)
+*/
+#include <cstdio>
+#include<vector>
+#include<iostream>
+#include <algorithm>
+#include<string>
+using namespace std;
+
+#define REP(i, n) for (int i = 0; i < (int)(n); ++i)
+
+struct suffixArr
+{
+static string S;
+static int N, gap;
+static vector<int> sa;
+static vector<int> pos,tmp,lcp;
+static void init(string inp)
+{
+	sa.clear();
+	pos.clear();
+	tmp.clear();
+	lcp.clear();
+	S=inp;
+	N=inp.size();
+	sa.resize(N,0);
+	pos.resize(N,0);
+	tmp.resize(N,0);
+	lcp.resize(N,0);
+}
+	static bool sufCmp(int i, int j)
+{
+	if (pos[i] != pos[j])
+		return pos[i] < pos[j];
+	i += gap;
+	j += gap;
+	return (i < N && j < N) ? pos[i] < pos[j] : i > j;
+}
+	static void buildSA()
+{
+	N = S.size();
+	REP(i, N) sa[i] = i, pos[i] = S[i];
+	for (gap = 1;; gap *= 2)
+	{
+		sort(sa.begin(), sa.end(), sufCmp);
+		REP(i, N - 1) tmp[i + 1] = tmp[i] + sufCmp(sa[i], sa[i + 1]);
+		REP(i, N) pos[sa[i]] = tmp[i];
+		if (tmp[N - 1] == N - 1) break;
+	}
+}
+	static void buildLCP()
+{
+	for (int i = 0, k = 0; i < N; ++i) if (pos[i] != N - 1)
+	{
+		for (int j = sa[pos[i] + 1]; S[i + k] == S[j + k];)
+		++k;
+		lcp[pos[i]] = k;
+		if (k)--k;
+	}
+}
+
+}obj;
+
+int main()
+{
+	//suffixArr obj;	
+	int test;
+	cin>>test;
+	while(test--)
+	{
+	string s;
+	cin>>s;
+	obj.init(s);
+	obj.buildSA();
+	obj.buildLCP();
+	int sum=0;
+	for(int i=0;i<obj.lcp.size();i++)
+		sum+=obj.lcp[i];
+	int h=s.size();
+	cout<<((h*(h+1)/2)-sum)<<endl;
+	}
+return 0;
+}
+

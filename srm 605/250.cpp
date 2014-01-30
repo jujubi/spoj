@@ -1,0 +1,38 @@
+#include<iostream>
+#include<stdio.h>
+#include<string>
+#include<vector>
+#include<map>
+#include<algorithm>
+
+using namespace std;
+
+//Func here
+
+map<string,int> seen;
+int getNumber(string S)
+{
+	seen.clear();
+	int count=0;
+	int end=S.size();
+	for(int i=0;i<S.size();i++)
+	{
+		string temp=S.substr(0,i)+S.substr(i+1,end);
+		if(seen[temp]==0)
+		{
+			count++;
+			seen[temp]=1;
+		}
+	}
+	return count;
+
+}
+
+//Main
+int main()
+{
+
+//	string str;
+		cout<<getNumber("AABACCCCABAA");
+	return 0;
+}
