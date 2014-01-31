@@ -1,38 +1,71 @@
 #include<iostream>
-#include<iterator>
+#include<stdio.h>
+#include<vector>
 #include<algorithm>
-#include<set>
 using namespace std;
 int main()
 {
-	int num;
-	set<int> arr;
-	cin>>num;
-	while(num--)
-	{
-		int d;
-		cin>>d;
-		arr.insert(d);
-	}
-	
-	set<int>::iterator it,it2,it3;
-	for(it=arr.begin();it!=arr.end();it++)
-	{
-		for(it2=arr.begin();it2!=arr.end();it2++)
-		{
-			for(it3=arr.begin();it3!=arr.end();it3++)
-			{
-				int a=*it;
-				int b=*it2;
-				int c=*it3;
-				arr.erase(a);
-				arr.erase(b);
-				arr.erase(c);
-				
 
+	long num;
+	//cin>>num;
+	scanf("%ld",&num);
+	vector<long> arr;
+	for(int i=0;i<num;i++)
+	{
+		long d;
+		//cin>>d;
+	scanf("%ld",&d);
+		arr.push_back(d);
+	}
+
+	vector<long> sums;
+	for(int i=0;i<num;i++)
+	{
+		for(int j=0;j<num;j++)
+		{
+			sums.push_back(arr[i]+arr[j]);
+			
+		}
+	}
+	vector<long> rights;
+	for(long i=0;i<sums.size();i++)
+	{
+		for(int j=0;j<num;j++)
+		{
+			if(arr[j]!=0)
+				rights.push_back(sums[i]*arr[j]);
+		}
+	}
+	sort(rights.begin(),rights.end());
+	
+	int a,b,c;
+	long ct=0;
+	long h;
+	vector<long>::iterator s1,s2;
+	for(int i=0;i<num;i++)
+	{
+		for(int j=0;j<num;j++)
+		{
+			for(int k=0;k<num;k++)
+			{
+				a=arr[i];b=arr[j];c=arr[k];
+				h=(a*b)+c;
+				//cout<<h<<endl;
+			s1 = lower_bound(rights.begin(),rights.end(),h);
+			s2 = upper_bound(rights.begin(),rights.end(),h);
+			
+			if(s1==rights.end() || *s1!=h)
+				continue;
+
+			ct+=(s2-s1);
+				
 			}
 		}
 	}
+	
+	//cout<<ct<<endl;
+	printf("%lld\n",ct);
+	
 
-	return 0;
+return 0;
 }
