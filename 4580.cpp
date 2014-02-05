@@ -39,7 +39,7 @@ int main()
 	sort(rights.begin(),rights.end());
 	
 	int a,b,c;
-	long ct=0;
+	long long ct=0;
 	long h;
 	vector<long>::iterator s1,s2;
 	for(int i=0;i<num;i++)
