@@ -1,0 +1,43 @@
+#include<iostream>
+#include<math.h>
+#include<stdio.h>
+using namespace std;
+
+long gcd(long a,long b)
+{
+	if(b==0)
+		return a;
+	else
+		return gcd(b,a%b);
+}
+int main()
+{
+
+	long test;
+	scanf("%ld",&test);
+	while(test--)
+	{
+		long a,b;
+		scanf("%ld%ld",&a,&b);
+		long ct=0;
+		long lol=gcd(a,b);
+		long maddis=sqrt(lol);	
+		
+		for(long i=1;i<=maddis;i++)
+		{
+			if(lol%i==0)
+			{
+				if(i!=lol/i)
+					ct+=2;
+				else
+					ct++;
+				
+				
+			}
+		}
+		
+		
+		printf("%ld\n",ct);
+	}
+	return 0;
+}

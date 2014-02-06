@@ -1,0 +1,35 @@
+#include<iostream>
+using namespace std;
+int main()
+{
+	int test;
+	cin>>test;
+	int h=1;
+	while(test--)
+	{
+
+		int num;
+		cin>>num;
+		int ans=0;
+		int count=0;
+		for(int i=0;i<num;i++)
+		{
+			int d;		
+			cin>>d;
+			count=count+d;
+			if(count<=0)
+			{
+				count=count*-1;
+				ans+=count+1;
+				count=1;
+			}
+		}
+		if(ans==0)			
+			ans=1;
+	
+		cout<<"Scenario #"<<h<<": "<<ans<<endl<<endl;
+		h++;
+
+	}
+	return 0;
+}

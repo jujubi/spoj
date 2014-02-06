@@ -1,16 +1,27 @@
 #include<iostream>
+#include<math.h>
 using namespace std;
+
+int joker(long long a)
+{
+	int ct=0;
+	while(a>0)
+	{
+		ct++;
+		a/=10;
+	}
+	return ct;
+}
 int main()
 {
-	char ch='a';
-	for(int i=1;i<=6000;i++)
+	double g=log(2);
+	cout<<2<<" "<<ceil(g);
+	for(long long i=3;i<=20;i++)
 	{
-		//cout<<"03 10103538 2222 1233 6160 014"<<i%10<<endl;
 		
-			cout<<ch;
-			ch=ch+1;
-			if(ch=='z')
-				ch=a;
+		g=ceil(g+log(i));
+		cout<<i<<" "<<g<<endl;
+			
 		
 	}
 return 0;
